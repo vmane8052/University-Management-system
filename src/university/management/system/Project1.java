@@ -91,9 +91,9 @@ public class Project1 extends JFrame {
         adminBox.setFocusPainted(false);
         boxPanel.add(adminBox);
 
-        studentBox.addActionListener(e ->
-                JOptionPane.showMessageDialog(null, "Student Login Page"));
-
+        studentBox.addActionListener(e ->{
+                new StudentLogin();
+           });
         teacherBox.addActionListener(e ->
                 JOptionPane.showMessageDialog(null, "Teacher Login Page"));
 
