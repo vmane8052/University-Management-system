@@ -9,7 +9,7 @@ public class MyCourses extends JFrame {
     MyCourses(String email) {
 
         setTitle("My Courses");
-        setSize(700, 700);   // 🔥 Increased Size
+        setSize(700, 700);  // 🔥 Increased Size
         setLocationRelativeTo(null); // Center screen
         setLayout(null);
         getContentPane().setBackground(Color.WHITE); // ✅ Full white background
