@@ -1,190 +1,109 @@
-//package university.management.system;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.awt.event.*;
-//import java.sql.*;
-//
-//public class StudentLogin extends JFrame implements ActionListener{
-//
-//    JButton login, cancel;
-//    JTextField tfusername;
-//    JPasswordField tfpassword;
-//    
-//    StudentLogin () {
-//        
-//        getContentPane().setBackground(Color.WHITE);
-//        setLayout(null);
-//        
-//        JLabel lblusername = new JLabel("Email");
-//        lblusername.setBounds(40, 20, 100, 20);
-//        add(lblusername);
-//        
-//        tfusername = new JTextField();
-//        tfusername.setBounds(150, 20, 150, 20);
-//        add(tfusername);
-//        
-//        JLabel lblpassword = new JLabel("Password");
-//        lblpassword.setBounds(40, 70, 100, 20);
-//        add(lblpassword);
-//        
-//        tfpassword = new JPasswordField();
-//        tfpassword.setBounds(150, 70, 150, 20);
-//        add(tfpassword);
-//        
-//        login = new JButton("Login");
-//        login.setBounds(40, 140, 120, 30);
-//        login.setBackground(Color.BLACK);
-//        login.setForeground(Color.WHITE);
-//        login.addActionListener(this);
-//        login.setFont(new Font("Tahoma", Font.BOLD, 15));
-//        add(login);
-//        
-//        cancel = new JButton("Cancel");
-//        cancel.setBounds(180, 140, 120, 30);
-//        cancel.setBackground(Color.BLACK);
-//        cancel.setForeground(Color.WHITE);
-//        cancel.addActionListener(this);
-//        cancel.setFont(new Font("Tahoma", Font.BOLD, 15));
-//        add(cancel);
-//        
-//        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/second.jpg"));
-//        Image i2 = i1.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-//        ImageIcon i3 = new ImageIcon(i2);
-//        JLabel image = new JLabel(i3);
-//        image.setBounds(350, 0, 200, 200);
-//        add(image);
-//        
-//        setSize(600, 300);
-//        setLocation(500, 250);
-//        setVisible(true);
-//    }
-//    
-//    public void actionPerformed(ActionEvent ae) {
-//        if (ae.getSource() == login) {
-//            
-//            String email = tfusername.getText();
-//            String password = new String(tfpassword.getPassword());
-//            
-//            String query = "select * from student where email='"+email+"' and password='"+password+"'";
-//            
-//            try {
-//                Conn c = new Conn();
-//                ResultSet rs = c.s.executeQuery(query);
-//                
-//                if (rs.next()) {
-//                    setVisible(false);
-//                    
-//                    // Open Student Dashboard
-//                    new StudentDashboard();
-//                    
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Invalid Email or Password");
-//                }
-//                
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            
-//        } else if (ae.getSource() == cancel) {
-//            setVisible(false);
-//        }
-//    }
-//
-//    public static void main(String[] args) {
-//        new Login();
-//    }
-//}
-
 package university.management.system;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
 public class StudentLogin extends JFrame implements ActionListener {
-    JButton login, cancel;
-    JTextField tfusername;
-    JPasswordField tfpassword;
 
-    StudentLogin() {
-        getContentPane().setBackground(Color.WHITE);
+    private JTextField txtRollNo;
+    private JPasswordField txtPassword;
+    private JButton btnLogin, btnCancel;
+
+    public StudentLogin() {
+        setTitle("Student Login");
+        setSize(500, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
+        getContentPane().setBackground(new Color(245, 245, 245));
 
-        JLabel lblusername = new JLabel("Email");
-        lblusername.setBounds(40, 20, 100, 20);
-        add(lblusername);
+        // Heading
+        JLabel heading = new JLabel("Student Login");
+        heading.setBounds(150, 40, 300, 40);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        heading.setForeground(new Color(30, 60, 120));
+        add(heading);
 
-        tfusername = new JTextField();
-        tfusername.setBounds(150, 20, 150, 20);
-        add(tfusername);
+        // Roll Number
+        JLabel lblRoll = new JLabel("Roll Number:");
+        lblRoll.setBounds(80, 120, 150, 30);
+        lblRoll.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        add(lblRoll);
 
-        JLabel lblpassword = new JLabel("Password");
-        lblpassword.setBounds(40, 70, 100, 20);
-        add(lblpassword);
+        txtRollNo = new JTextField();
+        txtRollNo.setBounds(240, 120, 180, 35);
+        txtRollNo.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        add(txtRollNo);
 
-        tfpassword = new JPasswordField();
-        tfpassword.setBounds(150, 70, 150, 20);
-        add(tfpassword);
+        // Password
+        JLabel lblPass = new JLabel("Password:");
+        lblPass.setBounds(80, 180, 150, 30);
+        lblPass.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        add(lblPass);
 
-        login = new JButton("Login");
-        login.setBounds(40, 140, 120, 30);
-        login.setBackground(Color.BLACK);
-        login.setForeground(Color.WHITE);
-        login.addActionListener(this);
-        login.setFont(new Font("Tahoma", Font.BOLD, 15));
-        add(login);
+        txtPassword = new JPasswordField();
+        txtPassword.setBounds(240, 180, 180, 35);
+        txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        add(txtPassword);
 
-        cancel = new JButton("Cancel");
-        cancel.setBounds(180, 140, 120, 30);
-        cancel.setBackground(Color.BLACK);
-        cancel.setForeground(Color.WHITE);
-        cancel.addActionListener(this);
-        cancel.setFont(new Font("Tahoma", Font.BOLD, 15));
-        add(cancel);
+        // Buttons
+        btnLogin = new JButton("Login");
+        btnLogin.setBounds(140, 260, 120, 45);
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnLogin.setBackground(new Color(40, 167, 69));
+        btnLogin.setForeground(Color.WHITE);
+        btnLogin.addActionListener(this);
+        add(btnLogin);
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/second.jpg"));
-        Image i2 = i1.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-        ImageIcon i3 = new ImageIcon(i2);
-        JLabel image = new JLabel(i3);
-        image.setBounds(350, 0, 200, 200);
-        add(image);
+        btnCancel = new JButton("Cancel");
+        btnCancel.setBounds(280, 260, 120, 45);
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnCancel.setBackground(new Color(220, 53, 69));
+        btnCancel.setForeground(Color.WHITE);
+        btnCancel.addActionListener(e -> dispose());
+        add(btnCancel);
 
-        setSize(600, 300);
-        setLocation(500, 250);
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == login) {
-            String email = tfusername.getText();
-            String password = new String(tfpassword.getPassword());
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnLogin) {
+            String rollNo = txtRollNo.getText().trim();
+            String password = new String(txtPassword.getPassword()).trim();
 
-            String query = "SELECT * FROM student WHERE email='" + email + "' AND password='" + password + "'";
+            if (rollNo.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Roll Number and Password are required!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             try {
                 Conn c = new Conn();
-                ResultSet rs = c.s.executeQuery(query);
+                String query = "SELECT * FROM student WHERE rollno = ? AND password = ?";
+                PreparedStatement ps = c.c.prepareStatement(query);
+                ps.setString(1, rollNo);
+                ps.setString(2, password);
+                ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
-                    setVisible(false);
-                    // Pass the email to dashboard
-                    new StudentDashboard(email);
+                    // Login successful - open Student Dashboard
+                    JOptionPane.showMessageDialog(this, "Login Successful! Welcome " + rs.getString("name"), "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose(); // close login
+                    new StudentDashboard(rollNo); // Open student dashboard
                 } else {
-                    JOptionPane.showMessageDialog(null, "Invalid Email or Password");
+                    JOptionPane.showMessageDialog(this, "Invalid Roll Number or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
                 }
 
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-        } else if (ae.getSource() == cancel) {
-            setVisible(false);
         }
     }
 
-    // Remove or comment out this main if you have a separate main login
-     public static void main(String[] args) {
-         new StudentLogin();
-     }
+    public static void main(String[] args) {
+        new StudentLogin();
+    }
 }

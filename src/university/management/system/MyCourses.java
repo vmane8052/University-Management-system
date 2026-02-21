@@ -6,112 +6,142 @@ import java.sql.*;
 
 public class MyCourses extends JFrame {
 
-    MyCourses(String email) {
+    private JTextField courseField, semField;
+    private DefaultListModel<String> subjectModel;
+    private String rollno;
 
-        setTitle("My Courses");
-        setSize(700, 700);  // 🔥 Increased Size
-        setLocationRelativeTo(null); // Center screen
+    public MyCourses(String rollno) {
+        this.rollno = rollno.trim();
+
+        setTitle("My Courses - " + rollno);
+        setSize(750, 650);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(null);
-        getContentPane().setBackground(Color.WHITE); // ✅ Full white background
+        getContentPane().setBackground(Color.WHITE);
 
-        // ===== MAIN CARD PANEL =====
+        // Main Card Panel (centered)
         JPanel card = new JPanel();
-        card.setBounds(120, 40, 450, 520); // Center adjusted for bigger screen
+        card.setBounds(120, 40, 500, 550);
         card.setBackground(Color.WHITE);
         card.setLayout(null);
         card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
         add(card);
 
-        JLabel heading = new JLabel("Your Course and Semester", JLabel.CENTER);
-        heading.setFont(new Font("Arial", Font.BOLD, 24));
-        heading.setBounds(50, 20, 350, 30);
+        // Heading
+        JLabel heading = new JLabel("My Courses & Semester", SwingConstants.CENTER);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        heading.setBounds(50, 20, 400, 35);
         card.add(heading);
 
-        // ===== COURSE =====
-        JLabel courseLbl = new JLabel("Course Name");
-        courseLbl.setBounds(40, 80, 200, 25);
-        courseLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        // Course
+        JLabel courseLbl = new JLabel("Course / Class:");
+        courseLbl.setBounds(50, 80, 200, 30);
+        courseLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         card.add(courseLbl);
 
-        JTextField courseField = new JTextField();
-        courseField.setBounds(40, 110, 360, 40);
+        courseField = new JTextField("Loading...");
+        courseField.setBounds(50, 115, 400, 40);
         courseField.setEditable(false);
-        courseField.setFont(new Font("Arial", Font.PLAIN, 16));
+        courseField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         card.add(courseField);
 
-        // ===== SEMESTER =====
-        JLabel semLbl = new JLabel("Semester Name");
-        semLbl.setBounds(40, 170, 200, 25);
-        semLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        // Semester
+        JLabel semLbl = new JLabel("Semester:");
+        semLbl.setBounds(50, 180, 200, 30);
+        semLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         card.add(semLbl);
 
-        JTextField semField = new JTextField();
-        semField.setBounds(40, 200, 360, 40);
+        semField = new JTextField("Loading...");
+        semField.setBounds(50, 215, 400, 40);
         semField.setEditable(false);
-        semField.setFont(new Font("Arial", Font.PLAIN, 16));
+        semField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         card.add(semField);
 
-        // ===== SUBJECTS =====
-        JLabel subLbl = new JLabel("Subjects");
-        subLbl.setBounds(40, 260, 200, 25);
-        subLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        // Subjects List
+        JLabel subLbl = new JLabel("Enrolled Subjects:");
+        subLbl.setBounds(50, 280, 200, 30);
+        subLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         card.add(subLbl);
 
-        DefaultListModel<String> model = new DefaultListModel<>();
-        JList<String> subjectList = new JList<>(model);
-        subjectList.setFont(new Font("Arial", Font.PLAIN, 15));
-
+        subjectModel = new DefaultListModel<>();
+        JList<String> subjectList = new JList<>(subjectModel);
+        subjectList.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         JScrollPane scrollPane = new JScrollPane(subjectList);
-        scrollPane.setBounds(40, 290, 360, 140);
+        scrollPane.setBounds(50, 315, 400, 180);
         card.add(scrollPane);
 
+        // Back Button
         JButton backBtn = new JButton("Back to Dashboard");
-        backBtn.setBounds(130, 450, 190, 40);
+        backBtn.setBounds(150, 520, 200, 45);
         backBtn.setBackground(new Color(108, 117, 125));
         backBtn.setForeground(Color.WHITE);
-        backBtn.setFont(new Font("Arial", Font.BOLD, 15));
+        backBtn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        backBtn.addActionListener(e -> dispose());
         card.add(backBtn);
 
-        // ===== DATABASE LOGIC =====
+        // Load data using rollno
+        loadCourses();
+
+        setVisible(true);
+    }
+
+    private void loadCourses() {
         try {
             Conn c = new Conn();
 
-            String studentQuery = "SELECT course, semester_name FROM student WHERE email = '" + email + "'";
-            ResultSet rs1 = c.s.executeQuery(studentQuery);
+            // Step 1: Get student's class_name and semester_name
+            String studentQuery = "SELECT class_name, semester_name FROM student WHERE rollno = ?";
+            PreparedStatement ps1 = c.c.prepareStatement(studentQuery);
+            ps1.setString(1, rollno);
+            ResultSet rs1 = ps1.executeQuery();
+
+            String className = "N/A";
+            String semesterName = "N/A";
 
             if (rs1.next()) {
-
-                String course = rs1.getString("course");
-                String semesterName = rs1.getString("semester_name");
-
-                courseField.setText(course);
-                semField.setText(semesterName);
-
-                String semQuery = "SELECT semid FROM semester WHERE sem_name = '" + semesterName + "'";
-                ResultSet rs2 = c.s.executeQuery(semQuery);
-
-                if (rs2.next()) {
-
-                    String semId = rs2.getString("semid");
-
-                    String subQuery = "SELECT subject_name FROM subject1 WHERE sem_id = '" 
-                            + semId + "' AND course_id = '" + course + "'";
-
-                    ResultSet rs3 = c.s.executeQuery(subQuery);
-
-                    int count = 1;
-                    while (rs3.next()) {
-                        model.addElement(count + " - " + rs3.getString("subject_name"));
-                        count++;
-                    }
-                }
+                className = rs1.getString("class_name") != null ? rs1.getString("class_name").trim() : "N/A";
+                semesterName = rs1.getString("semester_name") != null ? rs1.getString("semester_name").trim() : "N/A";
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading subjects");
-        }
+            courseField.setText(className);
+            semField.setText(semesterName);
 
-        setVisible(true);
+            // Step 2: Get subjects for this class/semester
+            String subQuery = "SELECT subject_name FROM subject1 " +
+                             "WHERE REPLACE(UPPER(TRIM(course_id)), ' ', '') = REPLACE(UPPER(TRIM(?)), ' ', '') " +
+                             "  AND REPLACE(UPPER(TRIM(sem_id)), ' ', '') = REPLACE(UPPER(TRIM(?)), ' ', '') " +
+                             "ORDER BY subject_name";
+
+            PreparedStatement psSub = c.c.prepareStatement(subQuery);
+            psSub.setString(1, className);
+            psSub.setString(2, semesterName);
+            ResultSet rsSub = psSub.executeQuery();
+
+            subjectModel.clear();
+            int count = 1;
+            boolean hasSubjects = false;
+
+            while (rsSub.next()) {
+                hasSubjects = true;
+                subjectModel.addElement(count + ". " + rsSub.getString("subject_name").trim());
+                count++;
+            }
+
+            if (!hasSubjects) {
+                subjectModel.addElement("No subjects found for this class/semester.");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error loading courses:\n" + ex.getMessage(),
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        new MyCourses("15333936"); // Test with your student rollno
     }
 }

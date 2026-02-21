@@ -1,203 +1,3 @@
-//package university.management.system;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.util.*;
-//import com.toedter.calendar.JDateChooser;
-//import java.awt.event.*;
-//
-//public class AddStudent extends JFrame implements ActionListener{
-//    
-//    JTextField tfname, tffname, tfaddress, tfphone, tfemail, tfx, tfxii, tfaadhar;
-//    JLabel labelrollno;
-//    JDateChooser dcdob;
-//    JComboBox cbcourse, cbbranch;
-//    JButton submit, cancel;
-//    
-//    Random ran = new Random();
-//    long first4 = Math.abs((ran.nextLong() % 9000L) + 1000L);
-//    
-//    AddStudent() {
-//        
-//        setSize(900, 700);
-//        setLocation(350, 50);
-//        
-//        setLayout(null);
-//        
-//        JLabel heading = new JLabel("New Student Details");
-//        heading.setBounds(310, 30, 500, 50);
-//        heading.setFont(new Font("serif", Font.BOLD, 30));
-//        add(heading);
-//        
-//        JLabel lblname = new JLabel("Name");
-//        lblname.setBounds(50, 150, 100, 30);
-//        lblname.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblname);
-//        
-//        tfname = new JTextField();
-//        tfname.setBounds(200, 150, 150, 30);
-//        add(tfname);
-//        
-//        JLabel lblfname = new JLabel("Father's Name");
-//        lblfname.setBounds(400, 150, 200, 30);
-//        lblfname.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblfname);
-//        
-//        tffname = new JTextField();
-//        tffname.setBounds(600, 150, 150, 30);
-//        add(tffname);
-//        
-//        JLabel lblrollno = new JLabel("Roll Number");
-//        lblrollno.setBounds(50, 200, 200, 30);
-//        lblrollno.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblrollno);
-//        
-//        labelrollno = new JLabel("1533"+first4);
-//        labelrollno.setBounds(200, 200, 200, 30);
-//        labelrollno.setFont(new Font("serif", Font.BOLD, 20));
-//        add(labelrollno);
-//        
-//        JLabel lbldob = new JLabel("Date of Birth");
-//        lbldob.setBounds(400, 200, 200, 30);
-//        lbldob.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lbldob);
-//        
-//        dcdob = new JDateChooser();
-//        dcdob.setBounds(600, 200, 150, 30);
-//        add(dcdob);
-//        
-//        JLabel lbladdress = new JLabel("Address");
-//        lbladdress.setBounds(50, 250, 200, 30);
-//        lbladdress.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lbladdress);
-//        
-//        tfaddress = new JTextField();
-//        tfaddress.setBounds(200, 250, 150, 30);
-//        add(tfaddress);
-//        
-//        JLabel lblphone = new JLabel("Phone");
-//        lblphone.setBounds(400, 250, 200, 30);
-//        lblphone.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblphone);
-//        
-//        tfphone = new JTextField();
-//        tfphone.setBounds(600, 250, 150, 30);
-//        add(tfphone);
-//        
-//        JLabel lblemail = new JLabel("Email Id");
-//        lblemail.setBounds(50, 300, 200, 30);
-//        lblemail.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblemail);
-//        
-//        tfemail = new JTextField();
-//        tfemail.setBounds(200, 300, 150, 30);
-//        add(tfemail);
-//        
-//        JLabel lblx = new JLabel("Class X (%)");
-//        lblx.setBounds(400, 300, 200, 30);
-//        lblx.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblx);
-//        
-//        tfx = new JTextField();
-//        tfx.setBounds(600, 300, 150, 30);
-//        add(tfx);
-//        
-//        JLabel lblxii = new JLabel("Class XII (%)");
-//        lblxii.setBounds(50, 350, 200, 30);
-//        lblxii.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblxii);
-//        
-//        tfxii = new JTextField();
-//        tfxii.setBounds(200, 350, 150, 30);
-//        add(tfxii);
-//        
-//        JLabel lblaadhar = new JLabel("Aadhar Number");
-//        lblaadhar.setBounds(400, 350, 200, 30);
-//        lblaadhar.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblaadhar);
-//        
-//        tfaadhar = new JTextField();
-//        tfaadhar.setBounds(600, 350, 150, 30);
-//        add(tfaadhar);
-//        
-//        JLabel lblcourse = new JLabel("Course");
-//        lblcourse.setBounds(50, 400, 200, 30);
-//        lblcourse.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblcourse);
-//        
-//        String course[] = {"B.Tech", "BBA", "BCA", "Bsc", "Msc", "MBA", "MCA", "MCom", "MA", "BA"};
-//        cbcourse = new JComboBox(course);
-//        cbcourse.setBounds(200, 400, 150, 30);
-//        cbcourse.setBackground(Color.WHITE);
-//        add(cbcourse);
-//        
-//        JLabel lblbranch = new JLabel("Branch");
-//        lblbranch.setBounds(400, 400, 200, 30);
-//        lblbranch.setFont(new Font("serif", Font.BOLD, 20));
-//        add(lblbranch);
-//        
-//        String branch[] = {"Computer Science", "Electronics", "Mechanical", "Civil", "IT"};
-//        cbbranch = new JComboBox(branch);
-//        cbbranch.setBounds(600, 400, 150, 30);
-//        cbbranch.setBackground(Color.WHITE);
-//        add(cbbranch);
-//        
-//        submit = new JButton("Submit");
-//        submit.setBounds(250, 550, 120, 30);
-//        submit.setBackground(Color.BLACK);
-//        submit.setForeground(Color.WHITE);
-//        submit.addActionListener(this);
-//        submit.setFont(new Font("Tahoma", Font.BOLD, 15));
-//        add(submit);
-//        
-//        cancel = new JButton("Cancel");
-//        cancel.setBounds(450, 550, 120, 30);
-//        cancel.setBackground(Color.BLACK);
-//        cancel.setForeground(Color.WHITE);
-//        cancel.addActionListener(this);
-//        cancel.setFont(new Font("Tahoma", Font.BOLD, 15));
-//        add(cancel);
-//        
-//        setVisible(true);
-//    }
-//    
-//    public void actionPerformed(ActionEvent ae) {
-//        if (ae.getSource() == submit) {
-//            String name = tfname.getText();
-//            String fname = tffname.getText();
-//            String rollno = labelrollno.getText();
-//            String dob = ((JTextField) dcdob.getDateEditor().getUiComponent()).getText();
-//            String address = tfaddress.getText();
-//            String phone = tfphone.getText();
-//            String email = tfemail.getText();
-//            String x = tfx.getText();
-//            String xii = tfxii.getText();
-//            String aadhar = tfaadhar.getText();
-//            String course = (String) cbcourse.getSelectedItem();
-//            String branch = (String) cbbranch.getSelectedItem();
-//            
-//            try {
-//                String query = "insert into student values('"+name+"', '"+fname+"', '"+rollno+"', '"+dob+"', '"+address+"', '"+phone+"', '"+email+"', '"+x+"', '"+xii+"', '"+aadhar+"', '"+course+"', '"+branch+"')";
-//
-//                Conn con = new Conn();
-//                con.s.executeUpdate(query);
-//                
-//                JOptionPane.showMessageDialog(null, "Student Details Inserted Successfully");
-//                setVisible(false);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            setVisible(false);
-//        }
-//    }
-//    
-//    public static void main(String[] args) {
-//        new AddStudent();
-//    }
-//}
-
-
 package university.management.system;
 
 import javax.swing.*;
@@ -210,116 +10,133 @@ import com.toedter.calendar.JDateChooser;
 public class AddStudent extends JFrame implements ActionListener {
 
     private JTextField tfname, tffname, tfaddress, tfphone, tfemail, tfx, tfxii, tfaadhar;
-    private JPasswordField tfpassword;   // 🔥 Password Field
+    private JPasswordField tfpassword;
     private JLabel labelrollno;
     private JDateChooser dcdob;
-    private JComboBox<String> cbcourse, cbbranch, cbClassName, cbSemester;
+    private JComboBox<String> cbClassName, cbSemester;
     private JButton submit, cancel;
 
     Random ran = new Random();
     long first4 = Math.abs((ran.nextLong() % 9000L) + 1000L);
 
     public AddStudent() {
-
-        setTitle("Add Student");
-        setSize(900, 750);
+        setTitle("Add New Student");
+        setSize(900, 720);
         setLocation(350, 30);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new Color(245, 245, 245));
 
-        JLabel heading = new JLabel("New Student Details");
-        heading.setBounds(300, 20, 500, 40);
-        heading.setFont(new Font("serif", Font.BOLD, 30));
+        // Heading
+        JLabel heading = new JLabel("New Student Admission");
+        heading.setBounds(280, 20, 400, 45);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        heading.setForeground(new Color(30, 60, 120));
         add(heading);
 
-        addLabel("Name", 50, 100);
-        tfname = addTextField(200, 100);
-
-        addLabel("Father's Name", 400, 100);
-        tffname = addTextField(600, 100);
-
-        addLabel("Roll Number", 50, 150);
+        // Roll Number (auto-generated)
+        addLabel("Roll Number", 50, 100);
         labelrollno = new JLabel("1533" + first4);
-        labelrollno.setBounds(200, 150, 200, 30);
-        labelrollno.setFont(new Font("serif", Font.BOLD, 18));
+        labelrollno.setBounds(200, 100, 200, 30);
+        labelrollno.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        labelrollno.setForeground(new Color(80, 80, 80));
         add(labelrollno);
 
-        addLabel("Date of Birth", 400, 150);
+        // Name
+        addLabel("Name *", 50, 140);
+        tfname = addTextField(200, 140);
+
+        // Father's Name
+        addLabel("Father's Name", 400, 140);
+        tffname = addTextField(600, 140);
+
+        // Date of Birth
+        addLabel("Date of Birth *", 50, 180);
         dcdob = new JDateChooser();
-        dcdob.setBounds(600, 150, 150, 30);
+        dcdob.setBounds(200, 180, 150, 30);
+        dcdob.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         add(dcdob);
 
-        addLabel("Address", 50, 200);
-        tfaddress = addTextField(200, 200);
+        // Address
+        addLabel("Address", 400, 180);
+        tfaddress = addTextField(600, 180);
 
-        addLabel("Phone", 400, 200);
-        tfphone = addTextField(600, 200);
+        // Phone
+        addLabel("Phone *", 50, 220);
+        tfphone = addTextField(200, 220);
 
-        addLabel("Email", 50, 250);
-        tfemail = addTextField(200, 250);
+        // Email
+        addLabel("Email", 400, 220);
+        tfemail = addTextField(600, 220);
 
-        addLabel("Class X (%)", 400, 250);
-        tfx = addTextField(600, 250);
+        // Class X %
+        addLabel("Class X (%)", 50, 260);
+        tfx = addTextField(200, 260);
 
-        addLabel("Class XII (%)", 50, 300);
-        tfxii = addTextField(200, 300);
+        // Class XII %
+        addLabel("Class XII (%)", 400, 260);
+        tfxii = addTextField(600, 260);
 
-        addLabel("Aadhar", 400, 300);
-        tfaadhar = addTextField(600, 300);
+        // Aadhar
+        addLabel("Aadhar Number *", 50, 300);
+        tfaadhar = addTextField(200, 300);
 
-        addLabel("Course", 50, 350);
-        String course[] = {"B.Tech", "BBA", "BCA", "BSc", "MSc", "MBA", "MCA"};
-        cbcourse = new JComboBox<>(course);
-        cbcourse.setBounds(200, 350, 150, 30);
-        add(cbcourse);
-
-        addLabel("Branch", 400, 350);
-        String branch[] = {"Computer Science", "Electronics", "Mechanical", "Civil", "IT"};
-        cbbranch = new JComboBox<>(branch);
-        cbbranch.setBounds(600, 350, 150, 30);
-        add(cbbranch);
-
-        addLabel("Class Name", 50, 400);
+        // Class Name (from class table)
+        addLabel("Class Name *", 400, 300);
         cbClassName = new JComboBox<>();
-        cbClassName.setBounds(200, 400, 150, 30);
+        cbClassName.setBounds(600, 300, 150, 30);
+        cbClassName.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         loadClassNames();
         add(cbClassName);
 
-        addLabel("Semester", 400, 400);
+        // Semester (from semester table)
+        addLabel("Semester *", 50, 340);
         cbSemester = new JComboBox<>();
-        cbSemester.setBounds(600, 400, 150, 30);
+        cbSemester.setBounds(200, 340, 150, 30);
+        cbSemester.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         loadSemesters();
         add(cbSemester);
 
-        // 🔥 PASSWORD FIELD
-        addLabel("Password", 50, 450);
+        // Password
+        addLabel("Set Password *", 400, 340);
         tfpassword = new JPasswordField();
-        tfpassword.setBounds(200, 450, 150, 30);
+        tfpassword.setBounds(600, 340, 150, 30);
+        tfpassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         add(tfpassword);
 
+        // Buttons
         submit = new JButton("Submit");
-        submit.setBounds(250, 550, 120, 40);
+        submit.setBounds(280, 420, 140, 45);
+        submit.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        submit.setBackground(new Color(40, 167, 69));
+        submit.setForeground(Color.WHITE);
+        submit.setFocusPainted(false);
         submit.addActionListener(this);
         add(submit);
 
         cancel = new JButton("Cancel");
-        cancel.setBounds(450, 550, 120, 40);
+        cancel.setBounds(480, 420, 140, 45);
+        cancel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        cancel.setBackground(new Color(220, 53, 69));
+        cancel.setForeground(Color.WHITE);
+        cancel.setFocusPainted(false);
         cancel.addActionListener(this);
         add(cancel);
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
     private void addLabel(String text, int x, int y) {
         JLabel label = new JLabel(text);
         label.setBounds(x, y, 200, 30);
-        label.setFont(new Font("serif", Font.BOLD, 18));
+        label.setFont(new Font("Segoe UI", Font.BOLD, 16));
         add(label);
     }
 
     private JTextField addTextField(int x, int y) {
         JTextField field = new JTextField();
         field.setBounds(x, y, 150, 30);
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         add(field);
         return field;
     }
@@ -327,68 +144,91 @@ public class AddStudent extends JFrame implements ActionListener {
     private void loadClassNames() {
         try {
             Conn con = new Conn();
-            ResultSet rs = con.s.executeQuery("SELECT coursename FROM class");
+            ResultSet rs = con.s.executeQuery("SELECT coursename FROM class ORDER BY coursename");
             while (rs.next()) {
                 cbClassName.addItem(rs.getString("coursename"));
             }
+            if (cbClassName.getItemCount() == 0) {
+                cbClassName.addItem("No classes available");
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error loading class names", "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void loadSemesters() {
         try {
             Conn con = new Conn();
-            ResultSet rs = con.s.executeQuery("SELECT sem_name FROM semester");
+            ResultSet rs = con.s.executeQuery("SELECT sem_name FROM semester ORDER BY sem_name");
             while (rs.next()) {
                 cbSemester.addItem(rs.getString("sem_name"));
             }
+            if (cbSemester.getItemCount() == 0) {
+                cbSemester.addItem("No semesters available");
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error loading semesters", "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    @Override
     public void actionPerformed(ActionEvent ae) {
-
         if (ae.getSource() == submit) {
+            // Basic validation
+            if (tfname.getText().trim().isEmpty() ||
+                tfphone.getText().trim().isEmpty() ||
+                tfaadhar.getText().trim().isEmpty() ||
+                new String(tfpassword.getPassword()).trim().isEmpty() ||
+                dcdob.getDate() == null ||
+                cbClassName.getSelectedItem() == null ||
+                cbSemester.getSelectedItem() == null) {
+
+                JOptionPane.showMessageDialog(this, "Please fill all required fields (*)", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             try {
+                java.sql.Date sqlDob = new java.sql.Date(dcdob.getDate().getTime());
+                String password = new String(tfpassword.getPassword()).trim();
 
-                java.sql.Date sqlDate = new java.sql.Date(dcdob.getDate().getTime());
-                String password = new String(tfpassword.getPassword());
+                String query = "INSERT INTO student (name, fname, rollno, dob, address, phone, email, " +
+                               "class_x, class_xii, aadhar, course, branch, class_name, semester_name, password) " +
+                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 Conn con = new Conn();
-
-                String query = "INSERT INTO student (name, fname, rollno, dob, address, phone, email, class_x, class_xii, aadhar, course, branch, class_name, semester_name, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
                 PreparedStatement ps = con.c.prepareStatement(query);
 
-                ps.setString(1, tfname.getText());
-                ps.setString(2, tffname.getText());
+                ps.setString(1, tfname.getText().trim());
+                ps.setString(2, tffname.getText().trim());
                 ps.setString(3, labelrollno.getText());
-                ps.setDate(4, sqlDate);
-                ps.setString(5, tfaddress.getText());
-                ps.setString(6, tfphone.getText());
-                ps.setString(7, tfemail.getText());
-                ps.setString(8, tfx.getText());
-                ps.setString(9, tfxii.getText());
-                ps.setString(10, tfaadhar.getText());
-                ps.setString(11, (String) cbcourse.getSelectedItem());
-                ps.setString(12, (String) cbbranch.getSelectedItem());
+                ps.setDate(4, sqlDob);
+                ps.setString(5, tfaddress.getText().trim());
+                ps.setString(6, tfphone.getText().trim());
+                ps.setString(7, tfemail.getText().trim());
+                ps.setString(8, tfx.getText().trim());
+                ps.setString(9, tfxii.getText().trim());
+                ps.setString(10, tfaadhar.getText().trim());
+
+                // If you still want to save course & branch (even though not shown in form)
+                // You can set them to empty or remove these columns if not needed
+                ps.setString(11, "");   // course — removed from form
+                ps.setString(12, "");   // branch — removed from form
+
                 ps.setString(13, (String) cbClassName.getSelectedItem());
                 ps.setString(14, (String) cbSemester.getSelectedItem());
                 ps.setString(15, password);
 
                 ps.executeUpdate();
 
-                JOptionPane.showMessageDialog(this, "Student Added Successfully");
+                JOptionPane.showMessageDialog(this, "Student Added Successfully!\nRoll No: " + labelrollno.getText(), "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
 
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error Inserting Data");
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
             }
-
         } else {
             dispose();
         }

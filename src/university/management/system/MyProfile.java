@@ -1,135 +1,175 @@
 package university.management.system;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 import java.sql.*;
 
 public class MyProfile extends JFrame {
 
-    MyProfile(String email) {
+    private JLabel profileImage;
+    private JLabel nameLbl, fnameLbl, rollLbl, classLbl, semLbl, branchLbl, emailLbl, phoneLbl;
+    private String rollno;
 
-        setTitle("My Profile");
-        setSize(750, 600);
-        setLocation(400, 120);
-        setLayout(null);
-        getContentPane().setBackground(Color.WHITE);
+    public MyProfile(String rollno) {
+        this.rollno = rollno.trim();
 
-        JLabel heading = new JLabel("Student Profile");
-        heading.setBounds(260, 20, 300, 35);
-        heading.setFont(new Font("Tahoma", Font.BOLD, 26));
-        add(heading);
+        setTitle("My Profile - " + rollno);
+        setSize(850, 650);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        // ===== PROFILE IMAGE =====
-        JLabel profileImage = new JLabel();
-        profileImage.setBounds(480, 120, 200, 200);
-        profileImage.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        add(profileImage);
+        // Main panel
+        JPanel mainPanel = new JPanel(new BorderLayout(20, 20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 40, 40));
+        mainPanel.setBackground(new Color(245, 245, 250));
+        add(mainPanel, BorderLayout.CENTER);
 
-        Font labelFont = new Font("Tahoma", Font.BOLD, 18);
-        Font valueFont = new Font("Tahoma", Font.PLAIN, 18);
+        // Header
+        JLabel heading = new JLabel("My Profile", SwingConstants.CENTER);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        heading.setForeground(new Color(30, 60, 120));
+        heading.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        mainPanel.add(heading, BorderLayout.NORTH);
 
-        JLabel lblname = new JLabel("Name:");
-        lblname.setBounds(80, 120, 180, 30);
-        lblname.setFont(labelFont);
-        add(lblname);
+        // Profile Card
+        JPanel card = new JPanel(new BorderLayout(40, 20));
+        card.setBackground(Color.WHITE);
+        card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(200, 200, 220), 1),
+                BorderFactory.createEmptyBorder(30, 30, 30, 30)
+        ));
+        mainPanel.add(card, BorderLayout.CENTER);
 
-        JLabel name = new JLabel();
-        name.setBounds(260, 120, 220, 30);
-        name.setFont(valueFont);
-        add(name);
+        // Left: Profile Image (rounded)
+        JPanel imgPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        imgPanel.setBackground(Color.WHITE);
 
-        JLabel lblfname = new JLabel("Father Name:");
-        lblfname.setBounds(80, 170, 180, 30);
-        lblfname.setFont(labelFont);
-        add(lblfname);
+        profileImage = new JLabel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                if (getIcon() != null) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.clip(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 40, 40));
+                    super.paintComponent(g2);
+                    g2.dispose();
+                }
+            }
+        };
+        profileImage.setPreferredSize(new Dimension(220, 220));
+        profileImage.setOpaque(false);
+        profileImage.setHorizontalAlignment(SwingConstants.CENTER);
+        profileImage.setBorder(BorderFactory.createLineBorder(new Color(100, 150, 255), 4));
+        profileImage.setText("Loading...");
+        profileImage.setFont(new Font("Segoe UI", Font.ITALIC, 16));
+        profileImage.setForeground(Color.GRAY);
 
-        JLabel fname = new JLabel();
-        fname.setBounds(260, 170, 220, 30);
-        fname.setFont(valueFont);
-        add(fname);
+        imgPanel.add(profileImage);
+        card.add(imgPanel, BorderLayout.WEST);
 
-        JLabel lblroll = new JLabel("Roll No:");
-        lblroll.setBounds(80, 220, 180, 30);
-        lblroll.setFont(labelFont);
-        add(lblroll);
+        // Right: Details Grid
+        JPanel details = new JPanel(new GridBagLayout());
+        details.setBackground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(14, 15, 14, 15);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel roll = new JLabel();
-        roll.setBounds(260, 220, 220, 30);
-        roll.setFont(valueFont);
-        add(roll);
+        Font lblFont = new Font("Segoe UI", Font.BOLD, 18);
+        Font valFont = new Font("Segoe UI", Font.PLAIN, 18);
 
-        JLabel lblcourse = new JLabel("Course:");
-        lblcourse.setBounds(80, 270, 180, 30);
-        lblcourse.setFont(labelFont);
-        add(lblcourse);
+        int row = 0;
 
-        JLabel course = new JLabel();
-        course.setBounds(260, 270, 220, 30);
-        course.setFont(valueFont);
-        add(course);
+        nameLbl   = addRow(details, gbc, row++, "Name:", "", lblFont, valFont);
+        fnameLbl  = addRow(details, gbc, row++, "Father's Name:", "", lblFont, valFont);
+        rollLbl   = addRow(details, gbc, row++, "Roll Number:", "", lblFont, valFont);
+        classLbl  = addRow(details, gbc, row++, "Class:", "", lblFont, valFont);
+        semLbl    = addRow(details, gbc, row++, "Semester:", "", lblFont, valFont);
+        branchLbl = addRow(details, gbc, row++, "Branch:", "", lblFont, valFont);
+        emailLbl  = addRow(details, gbc, row++, "Email:", "", lblFont, valFont);
+        phoneLbl  = addRow(details, gbc, row++, "Phone:", "", lblFont, valFont);
 
-        JLabel lblbranch = new JLabel("Branch:");
-        lblbranch.setBounds(80, 320, 180, 30);
-        lblbranch.setFont(labelFont);
-        add(lblbranch);
+        card.add(details, BorderLayout.CENTER);
 
-        JLabel branch = new JLabel();
-        branch.setBounds(260, 320, 220, 30);
-        branch.setFont(valueFont);
-        add(branch);
+        // Load data using rollno
+        loadProfile();
 
-        JLabel lblemail = new JLabel("Email:");
-        lblemail.setBounds(80, 370, 180, 30);
-        lblemail.setFont(labelFont);
-        add(lblemail);
+        setVisible(true);
+    }
 
-        JLabel emaillbl = new JLabel();
-        emaillbl.setBounds(260, 370, 220, 30);
-        emaillbl.setFont(valueFont);
-        add(emaillbl);
+    private JLabel addRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, String initialValue,
+                          Font lblFont, Font valFont) {
+        JLabel lbl = new JLabel(labelText);
+        lbl.setFont(lblFont);
+        lbl.setForeground(new Color(60, 60, 80));
 
-        JLabel lblphone = new JLabel("Phone:");
-        lblphone.setBounds(80, 420, 180, 30);
-        lblphone.setFont(labelFont);
-        add(lblphone);
+        JLabel val = new JLabel(initialValue);
+        val.setFont(valFont);
+        val.setForeground(new Color(30, 30, 50));
 
-        JLabel phone = new JLabel();
-        phone.setBounds(260, 420, 220, 30);
-        phone.setFont(valueFont);
-        add(phone);
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0.3;
+        panel.add(lbl, gbc);
 
-        // ===== Fetch Data From Database =====
+        gbc.gridx = 1;
+        gbc.weightx = 0.7;
+        panel.add(val, gbc);
+
+        return val; // Return reference for later update
+    }
+
+    private void loadProfile() {
         try {
             Conn c = new Conn();
-            String query = "SELECT * FROM student WHERE email = '" + email + "'";
-            ResultSet rs = c.s.executeQuery(query);
+            String query = "SELECT * FROM student WHERE rollno = ?";
+            PreparedStatement ps = c.c.prepareStatement(query);
+            ps.setString(1, rollno);
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-
-                name.setText(rs.getString("name"));
-                fname.setText(rs.getString("fname"));
-                roll.setText(rs.getString("rollno"));
-                course.setText(rs.getString("course"));
-                branch.setText(rs.getString("branch"));
-                emaillbl.setText(rs.getString("email"));
-                phone.setText(rs.getString("phone"));
+                nameLbl.setText(rs.getString("name") != null ? rs.getString("name").trim() : "N/A");
+                fnameLbl.setText(rs.getString("fname") != null ? rs.getString("fname").trim() : "N/A");
+                rollLbl.setText(rs.getString("rollno") != null ? rs.getString("rollno").trim() : "N/A");
+                classLbl.setText(rs.getString("class_name") != null ? rs.getString("class_name").trim() : "N/A");
+                semLbl.setText(rs.getString("semester_name") != null ? rs.getString("semester_name").trim() : "N/A");
+                branchLbl.setText(rs.getString("branch") != null ? rs.getString("branch").trim() : "N/A");
+                emailLbl.setText(rs.getString("email") != null ? rs.getString("email").trim() : "N/A");
+                phoneLbl.setText(rs.getString("phone") != null ? rs.getString("phone").trim() : "N/A");
 
                 String imgPath = rs.getString("profile_pic");
-
-                if (imgPath != null && !imgPath.equals("")) {
-                    ImageIcon icon = new ImageIcon(imgPath);
-                    Image img = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                    profileImage.setIcon(new ImageIcon(img));
+                if (imgPath != null && !imgPath.trim().isEmpty()) {
+                    try {
+                        ImageIcon icon = new ImageIcon(imgPath);
+                        Image img = icon.getImage().getScaledInstance(220, 220, Image.SCALE_SMOOTH);
+                        profileImage.setIcon(new ImageIcon(img));
+                        profileImage.setText("");
+                    } catch (Exception imgEx) {
+                        profileImage.setText("Image failed to load");
+                    }
+                } else {
+                    profileImage.setText("No Photo");
                 }
-
             } else {
-                JOptionPane.showMessageDialog(this, "Profile not found");
+                JOptionPane.showMessageDialog(this,
+                        "No profile found for Roll Number: " + rollno,
+                        "Not Found",
+                        JOptionPane.WARNING_MESSAGE);
+                dispose();
             }
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading profile");
+            JOptionPane.showMessageDialog(this,
+                    "Error loading profile:\n" + ex.getMessage(),
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
+    }
 
-        setVisible(true);
+    public static void main(String[] args) {
+        new MyProfile("15333936"); // test with your student rollno
     }
 }
