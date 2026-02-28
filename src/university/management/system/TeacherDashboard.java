@@ -20,12 +20,19 @@ public class TeacherDashboard extends JFrame implements ActionListener {
         JPanel sidebar = new JPanel();
         sidebar.setBackground(new Color(0, 51, 102)); // Dark blue
         sidebar.setPreferredSize(new Dimension(250, 0));
-        sidebar.setLayout(new GridLayout(0, 1, 0, 8)); // Vertical layout with spacing
+        sidebar.setLayout(new GridLayout(0, 1, 0, 8));
         sidebar.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 
         String[] menuItems = {
-                "Home", "My Profile", "My Classes", "Add Marks", 
-                "Attendance", "Students", "Settings", "Logout"
+                "Home",
+                "My Profile",
+                "My Classes",
+                "Add Marks",
+                "Attendance",
+                "Students",
+                "Leave Approvals",  // ← New Button Added Here
+                "Settings",
+                "Logout"
         };
 
         for (String item : menuItems) {
@@ -61,11 +68,10 @@ public class TeacherDashboard extends JFrame implements ActionListener {
         topPanel.setLayout(new BorderLayout());
         topPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(100, 150, 255)));
 
-        JLabel title = new JLabel("  Teacher Management System - Dashboard", SwingConstants.LEFT);
+        JLabel title = new JLabel(" Teacher Management System - Dashboard", SwingConstants.LEFT);
         title.setFont(new Font("Segoe UI", Font.BOLD, 24));
         title.setForeground(Color.WHITE);
         topPanel.add(title, BorderLayout.WEST);
-
         add(topPanel, BorderLayout.NORTH);
 
         // ===== CENTER PANEL - Dashboard Cards =====
@@ -103,7 +109,7 @@ public class TeacherDashboard extends JFrame implements ActionListener {
         panel.add(lblTitle, BorderLayout.NORTH);
         panel.add(lblValue, BorderLayout.CENTER);
 
-        // Optional hover effect
+        // Hover effect
         panel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 panel.setBackground(color.darker());
@@ -138,7 +144,7 @@ public class TeacherDashboard extends JFrame implements ActionListener {
                 break;
 
             case "My Classes":
-                new CourseListPage(); // or your class list page
+                new CourseListPage();
                 break;
 
             case "Add Marks":
@@ -153,12 +159,15 @@ public class TeacherDashboard extends JFrame implements ActionListener {
                 new CourseListPage();
                 break;
 
+            case "Leave Approvals":
+                new LeaveApprovalPage(empId);  // ← New Page for Leave Approvals
+                break;
+
             case "Settings":
                 new UploadTeacherPicture(empId);
                 break;
 
             case "Home":
-                // Refresh or do something
                 JOptionPane.showMessageDialog(this, "Welcome back to Dashboard!");
                 break;
 
@@ -169,6 +178,6 @@ public class TeacherDashboard extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new TeacherDashboard("101455"); // test with your teacher empId
+        new TeacherDashboard("101455");
     }
 }

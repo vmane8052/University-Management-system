@@ -7,89 +7,98 @@ import java.sql.*;
 
 public class TeacherLogin extends JFrame implements ActionListener {
 
-    JButton login, cancel;
-    JTextField tfempId;
-    JPasswordField tfpassword;
+    private JTextField tfEmpId;
+    private JPasswordField tfPassword;
+    private JButton btnLogin, btnCancel;
 
-    TeacherLogin() {
-
-        getContentPane().setBackground(Color.WHITE);
+    public TeacherLogin() {
+        setTitle("Teacher Login");
+        setSize(500, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(null);
+        getContentPane().setBackground(new Color(245, 245, 245));
 
-        JLabel lblEmpId = new JLabel("Emp ID");
-        lblEmpId.setBounds(40, 20, 100, 20);
+        // Heading
+        JLabel heading = new JLabel("Teacher Login");
+        heading.setBounds(150, 40, 300, 40);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        heading.setForeground(new Color(30, 60, 120));
+        add(heading);
+
+        // Emp ID Label & Field
+        JLabel lblEmpId = new JLabel("Employee ID:");
+        lblEmpId.setBounds(80, 120, 150, 30);
+        lblEmpId.setFont(new Font("Segoe UI", Font.BOLD, 18));
         add(lblEmpId);
 
-        tfempId = new JTextField();
-        tfempId.setBounds(150, 20, 150, 25);
-        add(tfempId);
+        tfEmpId = new JTextField();
+        tfEmpId.setBounds(240, 120, 180, 35);
+        tfEmpId.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        add(tfEmpId);
 
-        JLabel lblPassword = new JLabel("Password");
-        lblPassword.setBounds(40, 70, 100, 20);
+        // Password Label & Field
+        JLabel lblPassword = new JLabel("Password:");
+        lblPassword.setBounds(80, 180, 150, 30);
+        lblPassword.setFont(new Font("Segoe UI", Font.BOLD, 18));
         add(lblPassword);
 
-        tfpassword = new JPasswordField();
-        tfpassword.setBounds(150, 70, 150, 25);
-        add(tfpassword);
+        tfPassword = new JPasswordField();
+        tfPassword.setBounds(240, 180, 180, 35);
+        tfPassword.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        add(tfPassword);
 
-        login = new JButton("Login");
-        login.setBounds(40, 140, 120, 35);
-        login.setBackground(Color.BLACK);
-        login.setForeground(Color.WHITE);
-        login.setFont(new Font("Tahoma", Font.BOLD, 15));
-        login.addActionListener(this);
-        add(login);
+        // Login Button
+        btnLogin = new JButton("Login");
+        btnLogin.setBounds(140, 260, 120, 45);
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnLogin.setBackground(new Color(40, 167, 69)); // Green
+        btnLogin.setForeground(Color.WHITE);
+        btnLogin.addActionListener(this);
+        add(btnLogin);
 
-        cancel = new JButton("Cancel");
-        cancel.setBounds(180, 140, 120, 35);
-        cancel.setBackground(Color.BLACK);
-        cancel.setForeground(Color.WHITE);
-        cancel.setFont(new Font("Tahoma", Font.BOLD, 15));
-        cancel.addActionListener(this);
-        add(cancel);
+        // Cancel Button
+        btnCancel = new JButton("Cancel");
+        btnCancel.setBounds(280, 260, 120, 45);
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnCancel.setBackground(new Color(220, 53, 69)); // Red
+        btnCancel.setForeground(Color.WHITE);
+        btnCancel.addActionListener(e -> dispose());
+        add(btnCancel);
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/second.jpg"));
-        Image i2 = i1.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-        ImageIcon i3 = new ImageIcon(i2);
-        JLabel image = new JLabel(i3);
-        image.setBounds(350, 0, 200, 200);
-        add(image);
-
-        setSize(600, 300);
-        setLocation(500, 250);
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent ae) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnLogin) {
+            String empId = tfEmpId.getText().trim();
+            String password = new String(tfPassword.getPassword()).trim();
 
-        if (ae.getSource() == login) {
-
-            String empId = tfempId.getText();
-            String password = new String(tfpassword.getPassword());
-
-            String query = "SELECT * FROM teacher WHERE empId='" 
-                    + empId + "' AND password='" + password + "'";
+            if (empId.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Employee ID and Password are required!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             try {
                 Conn c = new Conn();
-                ResultSet rs = c.s.executeQuery(query);
+                String query = "SELECT * FROM teacher WHERE empId = ? AND password = ?";
+                PreparedStatement ps = c.c.prepareStatement(query);
+                ps.setString(1, empId);
+                ps.setString(2, password);
+                ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
-                    setVisible(false);
-
-                    // Pass empId to Teacher Dashboard
+                    JOptionPane.showMessageDialog(this, "Login Successful! Welcome " + rs.getString("name"), "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
                     new TeacherDashboard(empId);
-
                 } else {
-                    JOptionPane.showMessageDialog(null, "Invalid Emp ID or Password");
+                    JOptionPane.showMessageDialog(this, "Invalid Employee ID or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-        } else if (ae.getSource() == cancel) {
-            setVisible(false);
         }
     }
 

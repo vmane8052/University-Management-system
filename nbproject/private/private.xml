@@ -3,23 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/Project.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentDashboard.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/MyProfile.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/About.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/Project1.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentLogin.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/MyCourses.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/LeaveApprovalPage.java</file>
             <file>file:/C:/project/University%20Management%20System/src/university/management/system/TeacherLogin.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/AddMarksPage.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/FillMarksPage.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/TeacherProfile.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/AddAttendancePage.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/MarkAttendancePage.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentDashboard.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/MyLeavesPage.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/Project.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentLogin.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/SubjectDetails.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentDetails.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/AddStudent.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/AddClass.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/AddTeacher.java</file>
             <file>file:/C:/project/University%20Management%20System/src/university/management/system/TeacherDashboard.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/UploadPicture.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentMarksView.java</file>
-            <file>file:/C:/project/University%20Management%20System/src/university/management/system/StudentAttendanceCalendar.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/university/management/system/Project1.java</file>
+            <file>file:/C:/project/University%20Management%20System/src/icons/unishivaji_cover.jpg</file>
+            <file>file:/C:/project/University%20Management%20System/src/icons/second.jpg</file>
         </group>
     </open-files>
 </project-private>

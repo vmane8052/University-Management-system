@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class StudentDashboard extends JFrame implements ActionListener {
 
-    private String rollno;  // ← Changed from email to rollno
+    private String rollno;
 
     StudentDashboard(String rollno) {
         this.rollno = rollno;
@@ -30,7 +30,9 @@ public class StudentDashboard extends JFrame implements ActionListener {
             "Attendance",
             "Marks",
             "Fees Status",
-            "Feedback",
+            "Apply Leave",
+            "My Leaves",      // ← New: My Leaves
+            "Feedback",       // ← New: Feedback
             "Settings",
             "Logout"
         };
@@ -114,7 +116,6 @@ public class StudentDashboard extends JFrame implements ActionListener {
         panel.add(lblTitle, BorderLayout.NORTH);
         panel.add(lblValue, BorderLayout.CENTER);
 
-        // Hover effect on card
         panel.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 panel.setBackground(color.darker());
@@ -145,38 +146,39 @@ public class StudentDashboard extends JFrame implements ActionListener {
                 break;
 
             case "My Profile":
-                new MyProfile(rollno);      // Pass rollno
+                new MyProfile(rollno);
                 break;
 
             case "My Courses":
-                new MyCourses(rollno);           // Pass rollno
+                new MyCourses(rollno);
                 break;
 
-//            case "Attendance":
-//                new StudentAttendance(rollno);   // Pass rollno
-//                break;
-//
-///           case "Marks":
-//                new StudentMarks(rollno);        // Pass rollno
-//                break;
-////
-//            case "Fees Status":
-//                new FeesStatus(rollno);          // Pass rollno
-//                break;
-//
-//            case "Feedback":
-//                new FeedbackForm(rollno);        // Pass rollno
-//                break;
-                case "Marks":
-    new StudentMarksView(rollno);  // ← Pass rollno here
-    break;
-    
-    case "Attendance":
-    new StudentAttendanceCalendar(rollno);
-    break;
+            case "Attendance":
+                new StudentAttendanceCalendar(rollno);
+                break;
+
+            case "Marks":
+                new StudentMarksView(rollno);
+                break;
+
+            case "Fees Status":
+                JOptionPane.showMessageDialog(this, "Fees Status - Coming Soon");
+                break;
+
+            case "Apply Leave":
+                new ApplyLeavePage(rollno);
+                break;
+
+            case "My Leaves":  // ← New: My Leaves
+                new MyLeavesPage(rollno);
+                break;
+
+            case "Feedback":
+                JOptionPane.showMessageDialog(this, "Feedback - Coming Soon");
+                break;
 
             case "Settings":
-                new UploadPicture(rollno);       // Changed to rollno (assuming student picture upload)
+                new UploadPicture(rollno);
                 break;
 
             case "Home":
@@ -190,7 +192,6 @@ public class StudentDashboard extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        // For testing - normally called from login after successful authentication
         new StudentDashboard("15333936");
     }
 }

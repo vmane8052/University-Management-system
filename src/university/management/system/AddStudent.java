@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.Random;
 import com.toedter.calendar.JDateChooser;
+import java.util.regex.Pattern;
 
 public class AddStudent extends JFrame implements ActionListener {
 
@@ -15,7 +16,6 @@ public class AddStudent extends JFrame implements ActionListener {
     private JDateChooser dcdob;
     private JComboBox<String> cbClassName, cbSemester;
     private JButton submit, cancel;
-
     Random ran = new Random();
     long first4 = Math.abs((ran.nextLong() % 9000L) + 1000L);
 
@@ -65,7 +65,7 @@ public class AddStudent extends JFrame implements ActionListener {
         tfphone = addTextField(200, 220);
 
         // Email
-        addLabel("Email", 400, 220);
+        addLabel("Email *", 400, 220);
         tfemail = addTextField(600, 220);
 
         // Class X %
@@ -80,7 +80,7 @@ public class AddStudent extends JFrame implements ActionListener {
         addLabel("Aadhar Number *", 50, 300);
         tfaadhar = addTextField(200, 300);
 
-        // Class Name (from class table)
+        // Class Name
         addLabel("Class Name *", 400, 300);
         cbClassName = new JComboBox<>();
         cbClassName.setBounds(600, 300, 150, 30);
@@ -88,7 +88,7 @@ public class AddStudent extends JFrame implements ActionListener {
         loadClassNames();
         add(cbClassName);
 
-        // Semester (from semester table)
+        // Semester
         addLabel("Semester *", 50, 340);
         cbSemester = new JComboBox<>();
         cbSemester.setBounds(200, 340, 150, 30);
@@ -176,16 +176,29 @@ public class AddStudent extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == submit) {
-            // Basic validation
+            // Basic required fields check
             if (tfname.getText().trim().isEmpty() ||
                 tfphone.getText().trim().isEmpty() ||
                 tfaadhar.getText().trim().isEmpty() ||
+                tfemail.getText().trim().isEmpty() ||
                 new String(tfpassword.getPassword()).trim().isEmpty() ||
                 dcdob.getDate() == null ||
                 cbClassName.getSelectedItem() == null ||
                 cbSemester.getSelectedItem() == null) {
-
                 JOptionPane.showMessageDialog(this, "Please fill all required fields (*)", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Email Validation
+            String email = tfemail.getText().trim();
+            if (!isValidEmail(email)) {
+                JOptionPane.showMessageDialog(this, 
+                    "Invalid Email Address!\n\n" +
+                    "Email must be in format: example@domain.com\n" +
+                    "Allowed domains: .com, .edu, .in, .org, .net, etc.",
+                    "Email Validation Error", 
+                    JOptionPane.ERROR_MESSAGE);
+                tfemail.requestFocus();
                 return;
             }
 
@@ -194,8 +207,8 @@ public class AddStudent extends JFrame implements ActionListener {
                 String password = new String(tfpassword.getPassword()).trim();
 
                 String query = "INSERT INTO student (name, fname, rollno, dob, address, phone, email, " +
-                               "class_x, class_xii, aadhar, course, branch, class_name, semester_name, password) " +
-                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                               "class_x, class_xii, aadhar, class_name, semester_name, password) " +
+                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 Conn con = new Conn();
                 PreparedStatement ps = con.c.prepareStatement(query);
@@ -206,23 +219,21 @@ public class AddStudent extends JFrame implements ActionListener {
                 ps.setDate(4, sqlDob);
                 ps.setString(5, tfaddress.getText().trim());
                 ps.setString(6, tfphone.getText().trim());
-                ps.setString(7, tfemail.getText().trim());
+                ps.setString(7, email);  // Validated email
                 ps.setString(8, tfx.getText().trim());
                 ps.setString(9, tfxii.getText().trim());
                 ps.setString(10, tfaadhar.getText().trim());
-
-                // If you still want to save course & branch (even though not shown in form)
-                // You can set them to empty or remove these columns if not needed
-                ps.setString(11, "");   // course — removed from form
-                ps.setString(12, "");   // branch — removed from form
-
-                ps.setString(13, (String) cbClassName.getSelectedItem());
-                ps.setString(14, (String) cbSemester.getSelectedItem());
-                ps.setString(15, password);
+                ps.setString(11, (String) cbClassName.getSelectedItem());
+                ps.setString(12, (String) cbSemester.getSelectedItem());
+                ps.setString(13, password);
 
                 ps.executeUpdate();
 
-                JOptionPane.showMessageDialog(this, "Student Added Successfully!\nRoll No: " + labelrollno.getText(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, 
+                    "Student Added Successfully!\nRoll No: " + labelrollno.getText(), 
+                    "Success", 
+                    JOptionPane.INFORMATION_MESSAGE);
+
                 dispose();
 
             } catch (Exception e) {
@@ -232,6 +243,19 @@ public class AddStudent extends JFrame implements ActionListener {
         } else {
             dispose();
         }
+    }
+
+    // Email Validation Method
+    private boolean isValidEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+
+        // Basic regex for email validation
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        
+        return pattern.matcher(email).matches();
     }
 
     public static void main(String[] args) {
