@@ -13,8 +13,8 @@ public class Project1 extends JFrame {
     private final String[] images = {
             "icons/shivaji-university-kolhapur.jpg",
             "icons/unishivaji_cover.jpg",
-            "icons/slider3.jpg",
-            "icons/slider4.jpg"
+            "icons/shivaji9.jpg",
+            "icons/shivaji8.jpg"
     };
 
     public Project1() {
@@ -131,7 +131,7 @@ marqueeTimer.start();
         footer.setPreferredSize(new Dimension(0, 80));
 
         JLabel footerText = new JLabel(
-                "© 2026 University Management System | Developed by MCA Department",
+                "© 2026 University Management System | Developed by Vikas Mane",
                 SwingConstants.CENTER
         );
         footerText.setForeground(Color.WHITE);
